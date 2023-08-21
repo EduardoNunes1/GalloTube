@@ -14,9 +14,9 @@ public class Video
     [StringLength(100, ErrorMessage = "O Título deve possuir no máximo 100 caracteres")]
     public string Name { get; set; }
 
-    [Display(Description = "Descrição")]
+    [Display(Name = "Descrição")]
     [StringLength(8000, ErrorMessage = "A descrição deve possuir no máximo 5000 caracteres")]
-    public string Descriptions { get; set; }
+    public string Description { get; set; }
 
     public DateTime UploadDate { get; set; }
 
@@ -28,9 +28,13 @@ public class Video
     [Display(Name = "Thumbnail")]
     public string Thumbnail { get; set; }
 
+    [Display(Name = "VideoFile")]
+    [Required(ErrorMessage = "A Duração é obrigatória")]
+    public string VideoFile { get; set; }
+
     [NotMapped]
-    [Display(Name = "Video File")]
-    public string VideoFile { get {
+    [Display(Name = "Duração")]
+    public string HourDuration { get {
         return TimeSpan.FromMinutes(Duration) .ToString(@"%h'h 'mm'min'");
     }}
 
