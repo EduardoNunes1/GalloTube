@@ -1,4 +1,4 @@
-namespace Gall.Interfaces;
+namespace GalloTube.Interfaces;
 
 public interface IRepository<T> where T : class
 {
