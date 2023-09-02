@@ -7,7 +7,7 @@ namespace GalloTube.Repositories;
 
 public class TagRepository : ITagRepository
 {
-    readonly string connectionString = "server=localhost;port=3306;database=GalloFlixdb;uid=root;pwd=''";
+    readonly string connectionString = "server=localhost;port=3306;database=GalloTubedb;uid=root;pwd=''";
 
     public void Create(Tag model)
     {
@@ -55,8 +55,8 @@ public class TagRepository : ITagRepository
         {
             Tag tag = new()
             {
-                Id = reader.GetByte("id"),
-                Name = reader.GetString("name")
+                Id = reader.GetInt32("Id"),
+                Name = reader.GetString("Name")
             };
             tags.Add(tag);
         }
@@ -81,7 +81,7 @@ public class TagRepository : ITagRepository
         {
             Tag tag = new()
             {
-                Id = reader.GetByte("id"),
+                Id = reader.GetInt32("id"),
                 Name = reader.GetString("name")
             };
             connection.Close();

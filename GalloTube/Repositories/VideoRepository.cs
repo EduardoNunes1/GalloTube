@@ -10,7 +10,7 @@ public class VideoRepository : IVideoRepository
     readonly string connectionString = "server=localhost;port=3306;database=GalloTubedb;uid=root;pwd=''";
     readonly IVideoTagRepository _videoTagRepository;
 
-    public VideoRepository(IVideoTagRepository videoTagRepository)
+public VideoRepository(IVideoTagRepository videoTagRepository)
     {
         _videoTagRepository = videoTagRepository;
     }
@@ -19,19 +19,18 @@ public class VideoRepository : IVideoRepository
     public void Create(Video model)
     {
         MySqlConnection connection = new(connectionString);
-        string sql = "insert into Video(Title, OriginalTitle, Synopsis, VideoYear, Duration, AgeRating, Image) "
-              + "values (@Title, @OriginalTitle, @Synopsis, @VideoYear, @Duration, @AgeRating, @Image)";
+        string sql = "insert into Video(Name, Description, UploadDate, Duration, Thumbnail, VideoFile) "
+              + "values (@Name, @Description, @UploadDate, @Duration, @Thumbnail, @VideoFile)";
         MySqlCommand command = new(sql, connection)
         {
             CommandType = CommandType.Text
         };
-        command.Parameters.AddWithValue("@Title", model.Title);
-        command.Parameters.AddWithValue("@OriginalTitle", model.OriginalTitle);
-        command.Parameters.AddWithValue("@Synopsis", model.Synopsis);
-        command.Parameters.AddWithValue("@VideoYear", model.VideoYear);
+        command.Parameters.AddWithValue("@Name", model.Name);
+        command.Parameters.AddWithValue("@Description", model.Description);
+        command.Parameters.AddWithValue("@UploadDate", model.UploadDate);
         command.Parameters.AddWithValue("@Duration", model.Duration);
-        command.Parameters.AddWithValue("@AgeRating", model.AgeRating);
-        command.Parameters.AddWithValue("@Image", model.Image);
+        command.Parameters.AddWithValue("@Thumbnail", model.Thumbnail);
+        command.Parameters.AddWithValue("@VideoFile", model.VideoFile);
         
         connection.Open();
         command.ExecuteNonQuery();
@@ -61,7 +60,7 @@ public class VideoRepository : IVideoRepository
         {
             CommandType = CommandType.Text
         };
-        
+
         List<Video> Videos = new();
         connection.Open();
         MySqlDataReader reader = command.ExecuteReader();
@@ -70,13 +69,12 @@ public class VideoRepository : IVideoRepository
             Video Video = new()
             {
                 Id = reader.GetInt32("id"),
-                Title = reader.GetString("title"),
-                OriginalTitle = reader.GetString("originalTitle"),
-                Synopsis = reader.GetString("synopsis"),
-                VideoYear = reader.GetInt16("videoYear"),
+                Name = reader.GetString("name"),
+                Description = reader.GetString("description"),
+                UploadDate = reader.GetDateTime("uploadDate"),
                 Duration = reader.GetInt16("duration"),
-                AgeRating = reader.GetByte("ageRating"),
-                Image = reader.GetString("image")
+                Thumbnail = reader.GetString("thumbnail"),
+                VideoFile = reader.GetString("videoFile")
             };
             Videos.Add(Video);
         }
@@ -102,13 +100,12 @@ public class VideoRepository : IVideoRepository
             Video Video = new()
             {
                 Id = reader.GetInt32("id"),
-                Title = reader.GetString("title"),
-                OriginalTitle = reader.GetString("originalTitle"),
-                Synopsis = reader.GetString("synopsis"),
-                VideoYear = reader.GetInt16("videoYear"),
+                Name = reader.GetString("name"),
+                Description = reader.GetString("description"),
+                UploadDate = reader.GetDateTime("uploadDate"),
                 Duration = reader.GetInt16("duration"),
-                AgeRating = reader.GetByte("ageRating"),
-                Image = reader.GetString("image")
+                Thumbnail = reader.GetString("thumbnail"),
+                VideoFile = reader.GetString("videoFile")
             };
             connection.Close();
             return Video;
@@ -121,26 +118,23 @@ public class VideoRepository : IVideoRepository
     {
         MySqlConnection connection = new(connectionString);
         string sql = "update Video set "
-                        + "Title = @Title, "
-                        + "OriginalTitle = @OriginalTitle, "
-                        + "Synopsis = @Synopsis, "
-                        + "VideoYear = @VideoYear, "
+                        + "Name = @Name, "
+                        + "Description = @Description, "
+                        + "UploadDate = @UploadDate, "
                         + "Duration = @Duration, "
-                        + "AgeRating = @AgeRating, "
-                        + "Image = @Image "
+                        + "Thumbnail = @Thumbnail, "
+                        + "VideoFile = @VideoFile "
                     + "where Id = @Id";
         MySqlCommand command = new(sql, connection)
         {
             CommandType = CommandType.Text
         };
-        command.Parameters.AddWithValue("@Id", model.Id);
-        command.Parameters.AddWithValue("@Title", model.Title);
-        command.Parameters.AddWithValue("@OriginalTitle", model.OriginalTitle);
-        command.Parameters.AddWithValue("@Synopsis", model.Synopsis);
-        command.Parameters.AddWithValue("@VideoYear", model.VideoYear);
+        command.Parameters.AddWithValue("@Name", model.Name);
+        command.Parameters.AddWithValue("@Description", model.Description);
+        command.Parameters.AddWithValue("@UploadDate", model.UploadDate);
         command.Parameters.AddWithValue("@Duration", model.Duration);
-        command.Parameters.AddWithValue("@AgeRating", model.AgeRating);
-        command.Parameters.AddWithValue("@Image", model.Image);
+        command.Parameters.AddWithValue("@Thumbnail", model.Thumbnail);
+        command.Parameters.AddWithValue("@VideoFile", model.VideoFile);
         
         connection.Open();
         command.ExecuteNonQuery();

@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GalloTube", "GalloTube\GalloTube.csproj", "{82A3AD9E-09C4-44FE-8E05-287F7D7E4802}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GalloTube", "GalloTube\GalloTube.csproj", "{164AA7BE-0E2A-4A93-81ED-4B5A7464DB4D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,9 +14,9 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{82A3AD9E-09C4-44FE-8E05-287F7D7E4802}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{82A3AD9E-09C4-44FE-8E05-287F7D7E4802}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{82A3AD9E-09C4-44FE-8E05-287F7D7E4802}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{82A3AD9E-09C4-44FE-8E05-287F7D7E4802}.Release|Any CPU.Build.0 = Release|Any CPU
+		{164AA7BE-0E2A-4A93-81ED-4B5A7464DB4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{164AA7BE-0E2A-4A93-81ED-4B5A7464DB4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{164AA7BE-0E2A-4A93-81ED-4B5A7464DB4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{164AA7BE-0E2A-4A93-81ED-4B5A7464DB4D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

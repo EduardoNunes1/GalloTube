@@ -1,11 +1,9 @@
-using Gallotube.Models;
-
+using GalloTube.Models;
 namespace GalloTube.Interfaces;
 
-public interface IVideoRepository : IRepository<Movie>
+public interface IVideoRepository : IRepository<Video>
 {
     List<Video> ReadAllDetailed();
 
     Video ReadByIdDetailed(int id);
 }
-

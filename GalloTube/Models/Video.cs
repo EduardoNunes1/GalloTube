@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
 namespace GalloTube.Models;
 
 public class Video
@@ -10,37 +9,28 @@ public class Video
 
     [Required]
     [StringLength(100)]
-    public string Title { get; set; }
-
-    [Required]
-    [StringLength(100)]
-    public string OriginalTitle { get; set; }
+    public string Name { get; set; }
 
     [Required]
     [StringLength(8000)]
-    public string Synopsis { get; set; }
+    public string Description { get; set; }
 
-    [Column(TypeName = "Year")]
     [Required]
-    public Int16 VideoYear { get; set; }
+    public DateTime UploadDate { get; set; }
 
     [Required]
     public Int16 Duration { get; set; }
 
-    [Required]
-    public byte AgeRating { get; set; } = 0;
-
     [StringLength(200)]
-    public string Image { get; set; }
+    public string Thumbnail { get; set; }
+
+    [Required]
+    [StringLength(200)]
+    public string VideoFile { get; set; }
 
     [NotMapped]
     public string HourDuration { get {
         return TimeSpan.FromMinutes(Duration).ToString(@"%h'h 'mm'min'");
-    } }
-
-    [NotMapped]
-    public string Classification { get {
-        return AgeRating == 0 ? "Livre" : AgeRating + " anos";
     } }
 
     [NotMapped]

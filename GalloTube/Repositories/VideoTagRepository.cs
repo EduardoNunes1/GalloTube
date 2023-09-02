@@ -5,19 +5,19 @@ using MySql.Data.MySqlClient;
 
 namespace GalloTube.Repositories;
 
-public class MovieTagRepository : IMovieTagRepository
+public class VideoTagRepository : IVideoTagRepository
 {
-    readonly string connectionString = "server=localhost;port=3306;database=GalloFlixdb;uid=root;pwd=''";
+    readonly string connectionString = "server=localhost;port=3306;database=GalloTubedb;uid=root;pwd=''";
 
-    public void Create(int MovieId, byte TagId)
+    public void Create(int VideoId, int TagId)
     {
         MySqlConnection connection = new(connectionString);
-        string sql = "insert into MovieTag(MovieId, TagId) values (@MovieId, @TagId)";
+        string sql = "insert into VideoTag(VideoId, TagId) values (@VideoId, @TagId)";
         MySqlCommand command = new(sql, connection)
         {
             CommandType = CommandType.Text
         };
-        command.Parameters.AddWithValue("@MovieId", MovieId);
+        command.Parameters.AddWithValue("@VideoId", VideoId);
         command.Parameters.AddWithValue("@TagId", TagId);
         
         connection.Open();
@@ -25,15 +25,15 @@ public class MovieTagRepository : IMovieTagRepository
         connection.Close();
     }
 
-    public void Delete(int MovieId, byte TagId)
+    public void Delete(int VideoId, int TagId)
     {
         MySqlConnection connection = new(connectionString);
-        string sql = "delete from MovieTag where MovieId = @MovieId and TagId = @TagId";
+        string sql = "delete from VideoTag where VideoId = @VideoId and TagId = @TagId";
         MySqlCommand command = new(sql, connection)
         {
             CommandType = CommandType.Text
         };
-        command.Parameters.AddWithValue("@MovieId", MovieId);
+        command.Parameters.AddWithValue("@VideoId", VideoId);
         command.Parameters.AddWithValue("@TagId", TagId);
         
         connection.Open();
@@ -41,31 +41,31 @@ public class MovieTagRepository : IMovieTagRepository
         connection.Close();
     }
 
-    public void Delete(int MovieId)
+    public void Delete(int VideoId)
     {
         MySqlConnection connection = new(connectionString);
-        string sql = "delete from MovieTag where MovieId = @MovieId";
+        string sql = "delete from VideoTag where VideoId = @VideoId";
         MySqlCommand command = new(sql, connection)
         {
             CommandType = CommandType.Text
         };
-        command.Parameters.AddWithValue("@MovieId", MovieId);
+        command.Parameters.AddWithValue("@VideoId", VideoId);
         
         connection.Open();
         command.ExecuteNonQuery();
         connection.Close();
     }
 
-    public List<Tag> ReadTagsByMovie(int MovieId)
+    public List<Tag> ReadTagsByVideo(int VideoId)
     {
         MySqlConnection connection = new(connectionString);
-        string sql = "select * from tag where id in "
-                   + "(select TagId from MovieTag where MovieId = @MovieId)";
+        string sql = "select * from Tag where Id in "
+                   + "(select TagId from VideoTag where VideoId = @VideoId)";
         MySqlCommand command = new(sql, connection)
         {
             CommandType = CommandType.Text
         };
-        command.Parameters.AddWithValue("@MovieId", MovieId);
+        command.Parameters.AddWithValue("@VideoId", VideoId);
         
         List<Tag> tags = new();
         connection.Open();
@@ -74,8 +74,8 @@ public class MovieTagRepository : IMovieTagRepository
         {
             Tag tag = new()
             {
-                Id = reader.GetByte("id"),
-                Name = reader.GetString("name")
+                Id = reader.GetInt32("Id"),
+                Name = reader.GetString("Name")
             };
             tags.Add(tag);
         }
@@ -83,61 +83,60 @@ public class MovieTagRepository : IMovieTagRepository
         return tags;
     }
 
-    public List<MovieTag> ReadMovieTag()
+    public List<VideoTag> ReadVideoTag()
     {
         MySqlConnection connection = new(connectionString);
-        string sql = "select * from MovieTag";
+        string sql = "select * from VideoTag";
         MySqlCommand command = new(sql, connection)
         {
             CommandType = CommandType.Text
         };
         
-        List<MovieTag> movieTags = new();
+        List<VideoTag> videoTags = new();
         connection.Open();
         MySqlDataReader reader = command.ExecuteReader();
         while (reader.Read())
         {
-            MovieTag movieTag = new()
+            VideoTag videoTag = new()
             {
-                MovieId = reader.GetInt32("MovieId"),
-                TagId = reader.GetByte("TagId")
+                VideoId = reader.GetInt32("VideoId"),
+                TagId = reader.GetInt32("TagId")
             };
-            movieTags.Add(movieTag);
+            videoTags.Add(videoTag);
         }
         connection.Close();
-        return movieTags;
+        return videoTags;
     }
 
-    public List<Movie> ReadMoviesByTag(byte TagId)
+    public List<Video> ReadVideosByTag(int TagId)
     {
         MySqlConnection connection = new(connectionString);
-        string sql = "select * from movie where id in "
-                   + "(select MovieId from movietag where TagId = @TagId)";
+        string sql = "select * from Video where Id in "
+                   + "(select VideoId from VideoTag where TagId = @TagId)";
         MySqlCommand command = new(sql, connection)
         {
             CommandType = CommandType.Text
         };
         command.Parameters.AddWithValue("@TagId", TagId);
         
-        List<Movie> movies = new();
+        List<Video> videos = new();
         connection.Open();
         MySqlDataReader reader = command.ExecuteReader();
         while (reader.Read())
         {
-            Movie movie = new()
+            Video video = new()
             {
                 Id = reader.GetInt32("id"),
-                Title = reader.GetString("title"),
-                OriginalTitle = reader.GetString("originalTitle"),
-                Synopsis = reader.GetString("synopsis"),
-                MovieYear = reader.GetInt16("movieYear"),
+                Name = reader.GetString("name"),
+                Description = reader.GetString("description"),
+                UploadDate = reader.GetDateTime("uploadDate"),
                 Duration = reader.GetInt16("duration"),
-                AgeRating = reader.GetByte("ageRating"),
-                Image = reader.GetString("image")
+                Thumbnail = reader.GetString("thumbnail"),
+                VideoFile = reader.GetString("videoFile")
             };
-            movies.Add(movie);
+            videos.Add(video);
         }
         connection.Close();
-        return movies;
+        return videos;
     }
 }
